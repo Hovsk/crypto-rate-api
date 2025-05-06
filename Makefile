@@ -23,9 +23,15 @@ env:
 migrate:
 	symfony console doctrine:migrations:migrate --no-interaction
 
+seed:
+	php bin/console app:seed-data
+
+fetch:
+	php bin/console app:fetch-rates
+
 # Start Symfony server
 serve:
 	symfony server:start -d
 
 # Run all steps
-setup: start install env migrate serve
+setup: start install env migrate seed fetch serve
