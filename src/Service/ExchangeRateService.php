@@ -7,9 +7,8 @@ use App\Repository\ExchangeRateRepository;
 
 final readonly class ExchangeRateService
 {
-    public function __construct(
-        private ExchangeRateRepository $rateRepository,
-    ) {
+    public function __construct(private ExchangeRateRepository $rateRepository)
+    {
     }
 
     public function getRates(RateQueryDto $dto): array
