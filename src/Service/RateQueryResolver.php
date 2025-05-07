@@ -11,9 +11,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class RateQueryResolver
 {
-    public function __construct(
-        private CurrencyPairRepository $pairRepository,
-    ) {
+    public function __construct(private CurrencyPairRepository $pairRepository)
+    {
     }
 
     public function resolve(Request $request): RateQueryDto
@@ -29,8 +28,8 @@ readonly class RateQueryResolver
         $to = self::parseHour($request->query->get('to'));
 
         if (
-            ($request->query->get('from') && !$from)
-            || ($request->query->get('to') && !$to)
+            ($request->query->get('from') && !$from) ||
+            ($request->query->get('to') && !$to)
         ) {
             throw new BadRequestHttpException('Invalid date format. Use YYYY-MM-DDTHH');
         }
