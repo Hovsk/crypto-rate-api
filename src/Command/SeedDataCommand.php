@@ -62,18 +62,19 @@ class SeedDataCommand extends Command
     private function persistCurrencies(SymfonyStyle $io): array
     {
         $currencies = [];
+
         foreach (array_merge([$this->baseCurrencyCode], $this->fiatCurrencyCodes) as $code) {
             $currency = $this->currencyRepository->findByCode($code);
-            $currencies[$code] = $currency;
 
             if ($currency) {
                 $io->writeln("Currency already exists: {$code}");
-                continue;
+            } else {
+                $currency = $this->currencyRepository->create($code, $code);
+                $this->entityManager->persist($currency);
+                $io->writeln("Inserted currency: {$code}");
             }
 
-            $currency = $this->currencyRepository->create($code, $code);
-            $this->entityManager->persist($currency);
-            $io->writeln("Inserted currency: {$code}");
+            $currencies[$code] = $currency;
         }
 
         return $currencies;
